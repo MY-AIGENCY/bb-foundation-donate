@@ -11,8 +11,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Alice&display=swap"
         rel="stylesheet">
 
     <!-- FontAwesome -->
@@ -26,13 +25,15 @@
                 extend: {
                     fontFamily: {
                         sans: ['Oswald', 'sans-serif'],
-                        serif: ['Lora', 'serif'],
+                        serif: ['Alice', 'serif'],
                     },
                     colors: {
                         brand: {
                             dark: '#111111',
                             light: '#f9fafb',
-                            accent: '#eab308'
+                            accent: '#eab308',
+                            orange: '#E85D2C',
+                            amber: '#F5A623'
                         }
                     }
                 }
@@ -76,12 +77,70 @@
 
             0%,
             100% {
-                box-shadow: 0 4px 20px rgba(234, 179, 8, 0.4);
+                box-shadow: 0 4px 20px rgba(232, 93, 44, 0.35);
             }
 
             50% {
-                box-shadow: 0 4px 30px rgba(234, 179, 8, 0.7);
+                box-shadow: 0 4px 30px rgba(232, 93, 44, 0.65);
             }
+        }
+
+        @keyframes sig-draw {
+            from {
+                opacity: 0;
+                transform: translateY(12px) rotate(-4deg);
+            }
+
+            to {
+                opacity: 0.85;
+                transform: translateY(0) rotate(-2deg);
+            }
+        }
+
+        /* ─── Pattern Parallax Vignette ─── */
+        .pattern-vignette {
+            position: absolute;
+            inset: 0;
+            background-image: url('images/BIZ_Pattern-01.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0.045;
+            filter: none;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ─── Hero pattern mask at bottom ─── */
+        .hero-pattern-edge {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background-image: url('images/BIZ_Pattern-01.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ─── Signature stamp ─── */
+        .bismack-sig {
+            width: 200px;
+            height: auto;
+            filter: invert(1);
+            opacity: 0;
+            transform: rotate(-2deg);
+            margin: 0 auto;
+            display: block;
+        }
+
+        .bismack-sig.visible {
+            animation: sig-draw 0.8s ease-out forwards;
         }
 
         /* ─── Hero ─── */
@@ -215,9 +274,10 @@
         }
 
         .btn-hero:hover {
-            background: #facc15;
+            background: #E85D2C;
+            color: #fff;
             transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 8px 32px rgba(234, 179, 8, 0.6);
+            box-shadow: 0 8px 32px rgba(232, 93, 44, 0.6);
         }
 
         /* ─── Impact Stats ─── */
@@ -225,7 +285,7 @@
             font-size: 3.5rem;
             font-weight: 700;
             line-height: 1;
-            background: linear-gradient(135deg, #eab308, #f59e0b);
+            background: linear-gradient(135deg, #F5A623, #E85D2C);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -310,6 +370,7 @@
     <section class="hero">
         <div class="hero-bg"></div>
         <div class="hero-overlay"></div>
+        <div class="hero-pattern-edge"></div>
         <div class="hero-content">
             <div class="hero-text-backdrop">
                 <img src="images/BBF_Symbol_W.png" alt="Bismack Biyombo Foundation" class="hero-logo">
@@ -383,14 +444,15 @@
     <!-- ═══════════════════════════════════════
          SECTION 3 — THE HEART (EMOTIONAL ANCHOR)
          ═══════════════════════════════════════ -->
-    <section class="bg-gray-50 flex flex-col md:flex-row min-h-[500px]">
+    <section class="relative bg-gray-50 flex flex-col md:flex-row min-h-[500px] overflow-hidden">
+        <div class="pattern-vignette" style="opacity: 0.08;"></div>
         <!-- Image Side -->
-        <div class="md:w-1/2 min-h-[400px] md:min-h-0 relative overflow-hidden">
+        <div class="md:w-1/2 min-h-[400px] md:min-h-0 relative overflow-hidden" style="z-index:1;">
             <img src="images/hospital-staff.jpg" alt="Medical staff at the Bismack Biyombo Hospital"
                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
         </div>
         <!-- Text Side -->
-        <div class="md:w-1/2 py-20 px-8 md:px-16 lg:px-24 flex items-center">
+        <div class="md:w-1/2 py-20 px-8 md:px-16 lg:px-24 flex items-center" style="z-index:1;">
             <div class="reveal">
                 <h2 class="font-sans text-4xl md:text-5xl font-bold uppercase tracking-wide text-brand-dark mb-6">
                     A Promise Kept.
@@ -480,18 +542,16 @@
     <!-- ═══════════════════════════════════════
          SECTION 5 — THE ANCHOR (THE FINAL PUSH)
          ═══════════════════════════════════════ -->
-    <section class="py-24 px-6 bg-brand-dark text-white text-center">
-        <div class="max-w-4xl mx-auto reveal">
+    <section class="relative py-24 px-6 bg-brand-dark text-white text-center overflow-hidden">
+        <div class="pattern-vignette" style="opacity: 0.06;"></div>
+        <div class="max-w-4xl mx-auto reveal" style="position:relative; z-index:1;">
             <i class="fa-solid fa-quote-left text-brand-accent text-4xl mb-8 opacity-60 block"></i>
             <blockquote class="font-serif text-3xl md:text-4xl leading-snug italic mb-8">
                 "Together, by helping one child at a time, we can change the outlook of an entire nation."
             </blockquote>
-            <cite
-                class="font-sans text-lg tracking-widest uppercase not-italic font-bold text-brand-accent block mb-12">
-                — Bismack Biyombo
-            </cite>
+            <img src="images/bismack-sig.png" alt="Bismack Biyombo Signature" class="bismack-sig reveal mb-10">
             <a href="#donate"
-                class="inline-block font-sans text-sm uppercase tracking-widest text-white/60 hover:text-brand-accent transition border-b border-white/20 hover:border-brand-accent pb-1">
+                class="inline-block font-sans text-sm uppercase tracking-widest text-white/60 hover:text-brand-orange transition border-b border-white/20 hover:border-brand-orange pb-1">
                 Give Today &rarr;
             </a>
         </div>
