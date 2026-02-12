@@ -6,8 +6,16 @@ Thumbs.db
 *.swp
 *.swo
 *~
-.vscode/
-.idea/
 
-# Node (if added later)
+# Node
 node_modules/
+
+# Raw source assets (too large for Git)
+# These live in the sponsor package / Google Drive
+*.tiff
+*.psd
+*.ai
+*.eps
+
+# Duplicates / temp files
+images/hero-bismack-kids_old.jpg

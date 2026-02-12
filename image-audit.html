@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BBF Donate — Image Audit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f0f0f;
+            color: #e0e0e0;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 32px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 40px;
+            padding: 16px 24px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-num {
+            font-size: 24px;
+            font-weight: 700;
+            color: #eab308;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        table {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            background: #1a1a1a;
+            color: #aaa;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 2px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        thead th:first-child {
+            text-align: center;
+            width: 50px;
+        }
+
+        thead th:nth-child(2) {
+            width: 160px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #1e1e1e;
+            transition: background 0.15s ease;
+        }
+
+        tbody tr:hover {
+            background: #1a1a1a;
+        }
+
+        td {
+            padding: 12px 16px;
+            vertical-align: middle;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        td:first-child {
+            text-align: center;
+            font-weight: 600;
+            color: #555;
+            font-size: 12px;
+        }
+
+        .thumb-cell {
+            padding: 8px 16px;
+        }
+
+        .thumb-cell img {
+            width: 140px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #2a2a2a;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .thumb-cell img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(234, 179, 8, 0.15);
+        }
+
+        .thumb-cell img.portrait {
+            width: 70px;
+            height: 90px;
+        }
+
+        .thumb-cell img.square {
+            width: 90px;
+            height: 90px;
+        }
+
+        .filename {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 11px;
+            color: #ccc;
+            word-break: break-all;
+        }
+
+        .description {
+            color: #bbb;
+        }
+
+        .specs {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 11px;
+            color: #888;
+            line-height: 1.8;
+        }
+
+        .specs .label {
+            color: #555;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-jpeg {
+            background: #1a3a2a;
+            color: #4ade80;
+        }
+
+        .badge-tiff {
+            background: #3a2a1a;
+            color: #fbbf24;
+        }
+
+        .badge-psd {
+            background: #2a1a3a;
+            color: #c084fc;
+        }
+
+        .badge-ai {
+            background: #1a2a3a;
+            color: #60a5fa;
+        }
+
+        .badge-eps {
+            background: #3a1a1a;
+            color: #f87171;
+        }
+
+        .recommended {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 10px;
+            background: linear-gradient(135deg, #78350f, #b45309);
+            color: #fbbf24;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 12px rgba(251, 191, 36, 0.25);
+        }
+
+        tr.highlight {
+            background: rgba(251, 191, 36, 0.04);
+        }
+
+        tr.highlight td:first-child {
+            color: #fbbf24;
+            font-size: 14px;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .category-header td {
+            background: #151515;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #eab308;
+            padding: 20px 16px 10px;
+            border-bottom: 1px solid #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>BBF Sponsor Package — Image Audit</h1>
+    <p class="subtitle">All images from the BBF Sponsor Package Presentation</p>
+
+    <div class="stats-bar">
+        <div class="stat">
+            <div class="stat-num">53</div>
+            <div class="stat-label">Total Images</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">7</div>
+            <div class="stat-label">Web-Ready (JPEG)</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">43</div>
+            <div class="stat-label">TIFF</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">3</div>
+            <div class="stat-label">Vector / PSD</div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Thumbnail</th>
+                <th>Filename</th>
+                <th>Description</th>
+                <th>File Specs</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- ===== WEB-READY JPEGs ===== -->
+            <tr class="category-header">
+                <td colspan="5">Web-Ready Images (JPEG)</td>
+            </tr>
+
+            <tr>
+                <td>1</td>
+                <td class="thumb-cell"><img src="images/00352_BiyomboFoundation_Kinshasa_20190722.jpeg"
+                        alt="Basketball camp Kinshasa"></td>
+                <td class="filename">00352_BiyomboFoundation_Kinshasa_20190722.jpeg</td>
+                <td class="description">Basketball camp action shot — youth playing in Biyombo #8 jerseys in Kinshasa.
+                    Dynamic, energetic composition.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 173 KB<br>
+                    <span class="label">Dims:</span> 1000 × 1000<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-jpeg">JPEG</span>
+                </td>
+            </tr>
+
+            <tr class="highlight">
+                <td>2</td>
+                <td class="thumb-cell"><img src="images/190731_header_biyombocongo.jpg" alt="Hospital staff"></td>
+                <td class="filename">190731_header_biyombocongo.jpg</td>
+                <td class="description">Bismack Biyombo hospital — group photo with medical staff in white coats.
+                    "BISMACK BIYOMBO" signage visible on building.<br><span class="recommended">★ RECOMMENDED → "A
+                        Promise Kept" section</span></td>
+                <td class="specs">
+                    <span class="label">Size:</span> 117 KB<br>
+                    <span class="label">Dims:</span> 777 × 442<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-jpeg">JPEG</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+                <td class="thumb-cell"><img src="images/960x0.jpg" alt="Bismack with kids at camp"></td>
+                <td class="filename">960x0.jpg</td>
+                <td class="description">Bismack seated with kids at a community basketball camp — warm, intimate group
+                    shot with dozens of smiling youth.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 243 KB<br>
+                    <span class="label">Dims:</span> 960 × 691<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-jpeg">JPEG</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+                <td class="thumb-cell"><img src="images/DFAaWH6XgAAoRH-.jpeg" alt="Basketball dunk event"></td>
+                <td class="filename">DFAaWH6XgAAoRH-.jpeg</td>
+                <td class="description">Outdoor basketball event — player dunking on court with large crowd and Bismack
+                    Biyombo banner. Lubumbashi 2017.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 82 KB<br>
+                    <span class="label">Dims:</span> 960 × 640<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-jpeg">JPEG</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>5</td>
+                <td class="thumb-cell"><img src="images/Bismack-Biyombos-brother-Billy-Biyombo.jpg"
+                        alt="Billy Biyombo portrait" class="square"></td>
+                <td class="filename">Bismack-Biyombos-brother-Billy-Biyombo.jpg</td>
+                <td class="description">Portrait of Billy Biyombo (Bismack's brother) — casual, warm portrait in plaid
+                    shirt.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 50 KB<br>
+                    <span class="label">Dims:</span> 566 × 566<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-jpeg">JPEG</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>6</td>
+                <td class="thumb-cell"><img src="images/Indoor+Gym+Inauguration+with+Giants+of+Africa.jpg"
+                        alt="Gym inauguration" class="square"></td>
+                <td class="filename">Indoor+Gym+Inauguration+with+Giants+of+Africa.jpg</td>
+                <td class="description">Indoor gym inauguration — "Congo Dreams Big" team throwing basketballs in the
+                    air. Giants of Africa / Trust Merchant Bank banners. Celebratory group shot.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 158 KB<br>
+                    <span class="label">Dims:</span> 878 × 878<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-jpeg">JPEG</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>7</td>
+                <td class="thumb-cell"><img src="images/camp image.jpeg" alt="Camp image" class="square"></td>
+                <td class="filename">camp image.jpeg</td>
+                <td class="description">Small outdoor basketball camp image — kids playing on a concrete court in front
+                    of a building. Low resolution.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 10 KB<br>
+                    <span class="label">Dims:</span> 225 × 225<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-jpeg">JPEG</span>
+                </td>
+            </tr>
+
+            <!-- ===== SPONSOR PACKAGE TIFFs ===== -->
+            <tr class="category-header">
+                <td colspan="5">Sponsor Package — NBA / Bismack Portraits</td>
+            </tr>
+
+            <tr>
+                <td>8</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_01_Image_0001.jpg"
+                        alt="NBA overhead dunk"></td>
+                <td class="filename">Bismack Biyombo_Page_01_Image_0001.tiff</td>
+                <td class="description">Overhead NBA court shot — Bismack looking up at camera, arms spread on blue
+                    court. High-impact hero-style composition.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 687 KB<br>
+                    <span class="label">Dims:</span> 720 × 405<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>9</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_02_Image_0001.jpg"
+                        alt="Bismack dribbling" class="portrait"></td>
+                <td class="filename">Bismack Biyombo_Page_02_Image_0001.tiff</td>
+                <td class="description">Studio shot — Bismack dribbling in white jersey, full body on white background.
+                    Small resolution.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 25 KB<br>
+                    <span class="label">Dims:</span> 127 × 190<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>10</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_03_Image_0001.jpg"
+                        alt="Bismack two basketballs" class="portrait"></td>
+                <td class="filename">Bismack Biyombo_Page_03_Image_0001.tiff</td>
+                <td class="description">Studio shot — Bismack holding two basketballs, full body on white background.
+                    Small resolution.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 28 KB<br>
+                    <span class="label">Dims:</span> 127 × 190<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>11</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_04_Image_0001.jpg"
+                        alt="Suns Valley jersey"></td>
+                <td class="filename">Bismack Biyombo_Page_04_Image_0001.tiff</td>
+                <td class="description">Phoenix Suns "The Valley" City Edition jersey #18 — front and back views.
+                    Product shot.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 184 KB<br>
+                    <span class="label">Dims:</span> 447 × 273<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>12</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_05_Image_0001.jpg"
+                        alt="Hornets portrait"></td>
+                <td class="filename">Bismack Biyombo_Page_05_Image_0001.tiff</td>
+                <td class="description">Charlotte Hornets official portrait — Bismack holding basketball on shoulder.
+                    Studio shot with gray backdrop.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 604 KB<br>
+                    <span class="label">Dims:</span> 469 × 576<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>13</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_05_Image_0002.jpg"
+                        alt="Bismack game action"></td>
+                <td class="filename">Bismack Biyombo_Page_05_Image_0002.tiff</td>
+                <td class="description">In-game action shot — Bismack in NBA game.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 369 KB<br>
+                    <span class="label">Dims:</span> 428 × 576<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>14</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_05_Image_0003.jpg"
+                        alt="Game action 2"></td>
+                <td class="filename">Bismack Biyombo_Page_05_Image_0003.tiff</td>
+                <td class="description">In-game action shot — Bismack playing in NBA game.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 566 KB<br>
+                    <span class="label">Dims:</span> 469 × 576<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>15</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_05_Image_0004.jpg"
+                        alt="Suns headshot" class="portrait"></td>
+                <td class="filename">Bismack Biyombo_Page_05_Image_0004.tiff</td>
+                <td class="description">Suns headshot — clean studio portrait with gradient purple/gold background.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 410 KB<br>
+                    <span class="label">Dims:</span> 478 × 576<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>16</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_05_Image_0005.jpg"
+                        alt="Game action 3"></td>
+                <td class="filename">Bismack Biyombo_Page_05_Image_0005.tiff</td>
+                <td class="description">In-game action shot — Bismack in NBA game.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 445 KB<br>
+                    <span class="label">Dims:</span> 428 × 576<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>17</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_05_Image_0006.jpg"
+                        alt="Game action 4"></td>
+                <td class="filename">Bismack Biyombo_Page_05_Image_0006.tiff</td>
+                <td class="description">In-game action shot — from NBA game.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 371 KB<br>
+                    <span class="label">Dims:</span> 384 × 576<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>18</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_06_Image_0001.jpg"
+                        alt="Bismack stacking balls" class="portrait"></td>
+                <td class="filename">Bismack Biyombo_Page_06_Image_0001.tiff</td>
+                <td class="description">Studio shot — Bismack holding stacked basketballs, full body on white
+                    background. Small resolution.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 27 KB<br>
+                    <span class="label">Dims:</span> 112 × 190<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>19</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_07_Image_0001.jpg"
+                        alt="Basketball behind face"></td>
+                <td class="filename">Bismack Biyombo_Page_07_Image_0001.tiff</td>
+                <td class="description">Black and white portrait — Bismack holding Spalding NBA basketball in front of
+                    face, only eyes visible. Intense, iconic shot.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 181 KB<br>
+                    <span class="label">Dims:</span> 396 × 396<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>20</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_09_Image_0001.jpg"
+                        alt="NBA Africa game" class="square"></td>
+                <td class="filename">Bismack Biyombo_Page_09_Image_0001.tiff</td>
+                <td class="description">NBA Africa game — Bismack in dark Africa #11 jersey with basketball.
+                    Small/thumbnail resolution.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 46 KB<br>
+                    <span class="label">Dims:</span> 128 × 147<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>21</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_21_Image_0001.jpg"
+                        alt="Jordan hoodie B&W" class="portrait"></td>
+                <td class="filename">Bismack Biyombo_Page_21_Image_0001.tiff</td>
+                <td class="description">Black and white portrait — Bismack in white Jordan hoodie, hands in prayer
+                    position. Moody, editorial feel.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 256 KB<br>
+                    <span class="label">Dims:</span> 547 × 664<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <!-- ===== FOUNDATION / COMMUNITY ===== -->
+            <tr class="category-header">
+                <td colspan="5">Foundation — Education & Community</td>
+            </tr>
+
+            <tr>
+                <td>22</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_10_Image_0001.jpg"
+                        alt="Academy aerial"></td>
+                <td class="filename">Bismack Biyombo_Page_10_Image_0001.tiff</td>
+                <td class="description">Aerial drone shot — Biyombo Foundation academy campus on Lake Kivu shore.
+                    Multi-building complex with playground. Stunning wide shot.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 1.2 MB<br>
+                    <span class="label">Dims:</span> 797 × 442<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>23</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_10_Image_0002.jpg"
+                        alt="Ribbon cutting" class="portrait"></td>
+                <td class="filename">Bismack Biyombo_Page_10_Image_0002.tiff</td>
+                <td class="description">Ribbon cutting ceremony — indoor gym inauguration. Bismack cutting ribbon with
+                    officials, "Congo Dreams Big" shirts visible.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 1.0 MB<br>
+                    <span class="label">Dims:</span> 447 × 795<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>24</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_10_Image_0003.jpg"
+                        alt="Campus building"></td>
+                <td class="filename">Bismack Biyombo_Page_10_Image_0003.tiff</td>
+                <td class="description">Campus/facility building shot.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 989 KB<br>
+                    <span class="label">Dims:</span> 728 × 533<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>25</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_10_Image_0004.jpg"
+                        alt="Campus wide shot"></td>
+                <td class="filename">Bismack Biyombo_Page_10_Image_0004.tiff</td>
+                <td class="description">Campus/facility wide shot.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 58 KB<br>
+                    <span class="label">Dims:</span> 797 × 526<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>26</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_10_Image_0005.jpg"
+                        alt="Foundation event" class="portrait"></td>
+                <td class="filename">Bismack Biyombo_Page_10_Image_0005.tiff</td>
+                <td class="description">Foundation event or campus image.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 424 KB<br>
+                    <span class="label">Dims:</span> 380 × 558<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>27</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_10_Image_0006.jpg"
+                        alt="Foundation event 2" class="square"></td>
+                <td class="filename">Bismack Biyombo_Page_10_Image_0006.tiff</td>
+                <td class="description">Foundation event or campus image.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 379 KB<br>
+                    <span class="label">Dims:</span> 478 × 458<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>28</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_10_Image_0007.jpg"
+                        alt="Foundation event 3" class="portrait"></td>
+                <td class="filename">Bismack Biyombo_Page_10_Image_0007.tiff</td>
+                <td class="description">Foundation event or campus image.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 550 KB<br>
+                    <span class="label">Dims:</span> 434 × 638<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>29</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_11_Image_0001.jpg"
+                        alt="Bismack portrait tracksuit" class="square"></td>
+                <td class="filename">Bismack Biyombo_Page_11_Image_0001.tiff</td>
+                <td class="description">Bismack seated portrait — wearing tan Adidas tracksuit and white cap in front of
+                    basketball hoop. Casual, confident pose.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 1.1 MB<br>
+                    <span class="label">Dims:</span> 669 × 653<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>30</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_11_Image_0002.jpg"
+                        alt="Kivu International"></td>
+                <td class="filename">Bismack Biyombo_Page_11_Image_0002.tiff</td>
+                <td class="description">Bismack standing at Kivu International school — "KIVU INTERNATIONAL" text on
+                    building. Foundation education facility.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 935 KB<br>
+                    <span class="label">Dims:</span> 644 × 541<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>31</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_11_Image_0003.jpg"
+                        alt="Small foundation image" class="square"></td>
+                <td class="filename">Bismack Biyombo_Page_11_Image_0003.tiff</td>
+                <td class="description">Small foundation image/thumbnail.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 65 KB<br>
+                    <span class="label">Dims:</span> 175 × 124<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>32</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_13_Image_0001.jpg"
+                        alt="Community group on court"></td>
+                <td class="filename">Bismack Biyombo_Page_13_Image_0001.tiff</td>
+                <td class="description">Large community group photo — gathered on outdoor basketball court with Giants
+                    of Africa logo. Formal event gathering.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 676 KB<br>
+                    <span class="label">Dims:</span> 527 × 405<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>33</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_13_Image_0002.jpg"
+                        alt="Community event 2" class="square"></td>
+                <td class="filename">Bismack Biyombo_Page_13_Image_0002.tiff</td>
+                <td class="description">Community/foundation event group photo.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 485 KB<br>
+                    <span class="label">Dims:</span> 491 × 417<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>34</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_13_Image_0003.jpg"
+                        alt="Community event 3"></td>
+                <td class="filename">Bismack Biyombo_Page_13_Image_0003.tiff</td>
+                <td class="description">Community/foundation event photo.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 696 KB<br>
+                    <span class="label">Dims:</span> 553 × 456<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>35</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_13_Image_0004.jpg"
+                        alt="Small community image" class="square"></td>
+                <td class="filename">Bismack Biyombo_Page_13_Image_0004.tiff</td>
+                <td class="description">Small community/foundation image. Low resolution.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 57 KB<br>
+                    <span class="label">Dims:</span> 155 × 102<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>36</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_13_Image_0005.jpg"
+                        alt="Foundation event" class="square"></td>
+                <td class="filename">Bismack Biyombo_Page_13_Image_0005.tiff</td>
+                <td class="description">Foundation/community event photo.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 314 KB<br>
+                    <span class="label">Dims:</span> 397 × 421<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <!-- ===== BASKETBALL CAMPS / YOUTH ===== -->
+            <tr class="category-header">
+                <td colspan="5">Foundation — Basketball Camps & Youth Programs</td>
+            </tr>
+
+            <tr>
+                <td>37</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_08_Image_0001.jpg"
+                        alt="Youth team B&W"></td>
+                <td class="filename">Bismack Biyombo_Page_08_Image_0001.tiff</td>
+                <td class="description">Black & white photo — youth team in Biyombo #8 jerseys gathered on outdoor
+                    court. Powerful, documentary feel.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 419 KB<br>
+                    <span class="label">Dims:</span> 762 × 447<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>38</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_08_Image_0002.jpg" alt="Camp action"
+                        class="portrait"></td>
+                <td class="filename">Bismack Biyombo_Page_08_Image_0002.tiff</td>
+                <td class="description">Basketball camp or youth program photo.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 417 KB<br>
+                    <span class="label">Dims:</span> 778 × 576<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>39</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_08_Image_0003.jpg" alt="Camp scene">
+                </td>
+                <td class="filename">Bismack Biyombo_Page_08_Image_0003.tiff</td>
+                <td class="description">Basketball camp or youth program photo.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 426 KB<br>
+                    <span class="label">Dims:</span> 690 × 447<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>40</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_18_Image_0001.jpg" alt="Camp 18-1"
+                        class="square"></td>
+                <td class="filename">Bismack Biyombo_Page_18_Image_0001.tiff</td>
+                <td class="description">Basketball camp/youth program event photo.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 240 KB<br>
+                    <span class="label">Dims:</span> 460 × 394<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>41</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_18_Image_0002.jpg" alt="Camp 18-2">
+                </td>
+                <td class="filename">Bismack Biyombo_Page_18_Image_0002.tiff</td>
+                <td class="description">Basketball camp/youth program event photo.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 365 KB<br>
+                    <span class="label">Dims:</span> 550 × 421<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>42</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_18_Image_0003.jpg" alt="Camp 18-3"
+                        class="portrait"></td>
+                <td class="filename">Bismack Biyombo_Page_18_Image_0003.tiff</td>
+                <td class="description">Basketball camp/youth program event photo.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 230 KB<br>
+                    <span class="label">Dims:</span> 360 × 535<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>43</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_18_Image_0004.jpg" alt="Camp 18-4"
+                        class="square"></td>
+                <td class="filename">Bismack Biyombo_Page_18_Image_0004.tiff</td>
+                <td class="description">Basketball camp/youth program event photo.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 277 KB<br>
+                    <span class="label">Dims:</span> 467 × 431<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>44</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_18_Image_0005.jpg" alt="Camp 18-5"
+                        class="square"></td>
+                <td class="filename">Bismack Biyombo_Page_18_Image_0005.tiff</td>
+                <td class="description">Basketball camp/youth program event photo.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 197 KB<br>
+                    <span class="label">Dims:</span> 387 × 358<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>45</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_18_Image_0006.jpg" alt="Camp 18-6">
+                </td>
+                <td class="filename">Bismack Biyombo_Page_18_Image_0006.tiff</td>
+                <td class="description">Basketball camp/youth program event photo.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 240 KB<br>
+                    <span class="label">Dims:</span> 487 × 346<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr class="highlight">
+                <td>46</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_18_Image_0007.jpg"
+                        alt="Bismack selfie with kids"></td>
+                <td class="filename">Bismack Biyombo_Page_18_Image_0007.tiff</td>
+                <td class="description">Bismack selfie surrounded by kids in orange camp shirts — joyful, energetic,
+                    everyone reaching toward camera.<br><span class="recommended">★ RECOMMENDED → Hero section
+                        background</span></td>
+                <td class="specs">
+                    <span class="label">Size:</span> 1.5 MB<br>
+                    <span class="label">Dims:</span> 789 × 529<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <!-- ===== PARTNERSHIPS / BRANDING ===== -->
+            <tr class="category-header">
+                <td colspan="5">Partnerships & Branding</td>
+            </tr>
+
+            <tr>
+                <td>47</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_14_Image_0001.jpg"
+                        alt="Population chart"></td>
+                <td class="filename">Bismack Biyombo_Page_14_Image_0001.tiff</td>
+                <td class="description">Population growth chart — World vs Sub-Saharan Africa vs West Africa
+                    (1950–2100). Data visualization/infographic.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 63 KB<br>
+                    <span class="label">Dims:</span> 589 × 259<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>48</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_16_Image_0001.jpg"
+                        alt="Brand/partnership"></td>
+                <td class="filename">Bismack Biyombo_Page_16_Image_0001.tiff</td>
+                <td class="description">Partnership or branding image.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 287 KB<br>
+                    <span class="label">Dims:</span> 735 × 493<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>49</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_16_Image_0002.jpg"
+                        alt="#ChildOfAfrica"></td>
+                <td class="filename">Bismack Biyombo_Page_16_Image_0002.tiff</td>
+                <td class="description">"Together we are stronger" — Bismack and others holding #ChildOfAfrica t-shirts.
+                    Social impact branding event.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 775 KB<br>
+                    <span class="label">Dims:</span> 784 × 418<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>50</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_16_Image_0003.jpg"
+                        alt="Brand event"></td>
+                <td class="filename">Bismack Biyombo_Page_16_Image_0003.tiff</td>
+                <td class="description">Branding or partnership event photo.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 521 KB<br>
+                    <span class="label">Dims:</span> 596 × 349<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>51</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_16_Image_0004.jpg"
+                        alt="Brand event 2" class="square"></td>
+                <td class="filename">Bismack Biyombo_Page_16_Image_0004.tiff</td>
+                <td class="description">Branding or partnership event photo.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 724 KB<br>
+                    <span class="label">Dims:</span> 560 × 560<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <!-- ===== LOGO & DESIGN ASSETS ===== -->
+            <tr class="category-header">
+                <td colspan="5">Logo & Design Assets</td>
+            </tr>
+
+            <tr class="highlight">
+                <td>52</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_21_Image_0002.jpg" alt="BBF Logo"
+                        class="square"></td>
+                <td class="filename">Bismack Biyombo_Page_21_Image_0002.tiff</td>
+                <td class="description">Biyombo Foundation logo — circular "B" mark in black.<br><span
+                        class="recommended">★ RECOMMENDED → Page header logo</span></td>
+                <td class="specs">
+                    <span class="label">Size:</span> 40 KB<br>
+                    <span class="label">Dims:</span> 303 × 301<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-tiff">TIFF</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>53</td>
+                <td class="thumb-cell" style="background: #333; border-radius: 6px;">
+                    <div
+                        style="width: 90px; height: 90px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #888;">
+                        .ai vector</div>
+                </td>
+                <td class="filename">bismack_Sig black.ai<br>bismack_Sig white.ai<br>bismack_Sig lavender.ai</td>
+                <td class="description">Bismack signature logo — Adobe Illustrator vector files in 3 color variants
+                    (black, white, lavender). Not browser-renderable; require export.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> ~1.2 MB each<br>
+                    <span class="label">Format:</span> AI (vector)<br>
+                    <span class="badge badge-ai">AI</span>
+                </td>
+            </tr>
+
+            <!-- ===== PSD FILES ===== -->
+            <tr class="category-header">
+                <td colspan="5">Photoshop Files</td>
+            </tr>
+
+            <tr>
+                <td>54</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_05_Image_0004_psd.jpg"
+                        alt="Suns headshot PSD" class="portrait"></td>
+                <td class="filename">Bismack Biyombo_Page_05_Image_0004.psd</td>
+                <td class="description">Suns headshot — same as #15 but in Photoshop format with CMYK color space.
+                    Likely the print-ready version.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 2.2 MB<br>
+                    <span class="label">Dims:</span> 760 × 987<br>
+                    <span class="label">Color:</span> CMYK<br>
+                    <span class="badge badge-psd">PSD</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>55</td>
+                <td class="thumb-cell"><img src="images/thumbs/Bismack Biyombo_Page_21_Image_0001_psd.jpg"
+                        alt="Jordan hoodie PSD" class="portrait"></td>
+                <td class="filename">Bismack Biyombo_Page_21_Image_0001.psd</td>
+                <td class="description">Jordan hoodie portrait — same as #21 but in Photoshop format. Likely the
+                    source/editable version.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 1.7 MB<br>
+                    <span class="label">Dims:</span> 547 × 664<br>
+                    <span class="label">Color:</span> RGB<br>
+                    <span class="badge badge-psd">PSD</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>56</td>
+                <td class="thumb-cell" style="background: #333; border-radius: 6px;">
+                    <div
+                        style="width: 90px; height: 90px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #888;">
+                        .eps vector</div>
+                </td>
+                <td class="filename">18764668.eps</td>
+                <td class="description">EPS vector file — likely a logo or graphic asset. Not browser-renderable;
+                    requires vector software to open.</td>
+                <td class="specs">
+                    <span class="label">Size:</span> 1.3 MB<br>
+                    <span class="label">Format:</span> EPS (vector)<br>
+                    <span class="badge badge-eps">EPS</span>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <img src="" alt="Full size" id="lightbox-img">
+    </div>
+
+    <script>
+        // Click thumbnail to open lightbox
+        document.querySelectorAll('.thumb-cell img').forEach(img => {
+            img.addEventListener('click', () => {
+                const lb = document.getElementById('lightbox');
+                const lbImg = document.getElementById('lightbox-img');
+                lbImg.src = img.src;
+                lb.classList.add('active');
+            });
+        });
+
+        // Click lightbox to close
+        document.getElementById('lightbox').addEventListener('click', () => {
+            document.getElementById('lightbox').classList.remove('active');
+        });
+
+        // ESC to close
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('active');
+        });
+    </script>
+</body>
+
+</html>
