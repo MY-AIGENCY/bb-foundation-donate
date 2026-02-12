@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biambo Foundation | One Opportunity</title>
+    
+    <!-- Google Fonts for Squarespace-like Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS for Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Oswald', 'sans-serif'], // For bold, condensed headlines
+                        serif: ['Lora', 'serif'],       // For elegant, readable body text
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#111111',
+                            light: '#f9fafb',
+                            accent: '#eab308' // Gold accent for buttons
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth scrolling and basic utilities */
+        html { scroll-behavior: smooth; }
+        .bg-overlay { background: rgba(0, 0, 0, 0.65); }
+        
+        /* Interactive Donation Button Styles */
+        .donate-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .donate-btn.selected {
+            background-color: #eab308; /* Brand accent */
+            border-color: #eab308;
+            color: #111111;
+        }
+        .donate-btn.selected .text-gray-600 {
+            color: #333333;
+        }
+    </style>
+</head>
+<body class="bg-brand-light text-gray-800 antialiased font-serif">
+
+    <!-- SECTION 1: The Hero (The Hook) -->
+    <section class="relative h-screen min-h-[600px] flex items-center justify-center text-white">
+        <!-- Background Image -->
+        <div class="absolute inset-0 w-full h-full">
+            <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=2000" alt="Children in Congo" class="w-full h-full object-cover object-center" />
+            <div class="absolute inset-0 bg-overlay"></div>
+        </div>
+        
+        <!-- Hero Content -->
+        <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+            <h1 class="font-sans text-5xl md:text-7xl font-bold uppercase tracking-wide leading-tight mb-8">
+                One Opportunity Can Change Everything.
+            </h1>
+            <p class="text-xl md:text-2xl font-serif leading-relaxed max-w-3xl mx-auto text-gray-200">
+                Bismack Biyombo grew up in the Democratic Republic of Congo, left home at 16 with nothing, and made it to the NBA. But for Bismack, making it was never the end goal — it was the beginning.
+            </p>
+            <div class="mt-10">
+                <a href="#donate" class="inline-block font-sans text-lg uppercase tracking-wider bg-brand-accent text-brand-dark font-bold py-4 px-10 rounded-sm hover:bg-yellow-400 transition shadow-lg">
+                    Make an Impact
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: The Impact (The Proof) -->
+    <section class="py-24 px-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 text-center">
+                
+                <!-- Column 1 -->
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center text-brand-dark mb-6">
+                        <i class="fa-solid fa-school text-3xl"></i>
+                    </div>
+                    <h3 class="font-sans text-2xl font-bold uppercase tracking-wide mb-4 text-brand-dark">Education Academies</h3>
+                    <p class="text-lg leading-relaxed text-gray-600">
+                        Through his Foundation, Bismack has built state-of-the-art education academies across three major cities, ensuring the next generation has the tools to succeed.
+                    </p>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center text-brand-dark mb-6">
+                        <i class="fa-solid fa-graduation-cap text-3xl"></i>
+                    </div>
+                    <h3 class="font-sans text-2xl font-bold uppercase tracking-wide mb-4 text-brand-dark">Full Scholarships</h3>
+                    <p class="text-lg leading-relaxed text-gray-600">
+                        We have successfully sent over 50 Congolese students to prestigious U.S. schools on full scholarships, transforming their trajectories forever.
+                    </p>
+                </div>
+
+                <!-- Column 3 -->
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center text-brand-dark mb-6">
+                        <i class="fa-solid fa-heart-pulse text-3xl"></i>
+                    </div>
+                    <h3 class="font-sans text-2xl font-bold uppercase tracking-wide mb-4 text-brand-dark">Lifesaving Care</h3>
+                    <p class="text-lg leading-relaxed text-gray-600">
+                        The Foundation currently provides critical medical care and resources to over 1,000 patients every single week.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: The Heart (The Emotional Anchor) -->
+    <section class="bg-gray-50 flex flex-col md:flex-row">
+        <!-- Image Side -->
+        <div class="md:w-1/2 min-h-[400px] md:min-h-0 relative">
+            <img src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&q=80&w=1500" alt="Medical care and hospital" class="absolute inset-0 w-full h-full object-cover" />
+        </div>
+        <!-- Text Side -->
+        <div class="md:w-1/2 py-20 px-8 md:px-16 lg:px-24 flex items-center">
+            <div>
+                <h2 class="font-sans text-4xl md:text-5xl font-bold uppercase tracking-wide text-brand-dark mb-6">
+                    A Promise Kept.
+                </h2>
+                <p class="text-xl leading-relaxed text-gray-700">
+                    When he lost his father to COVID-19, Bismack didn't just grieve—he acted. He donated his entire NBA salary to build a hospital in his father's name, ensuring others wouldn't have to suffer the same loss.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: The Ask (The Action) -->
+    <section id="donate" class="py-24 px-6 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="font-sans text-4xl md:text-5xl font-bold uppercase tracking-wide text-brand-dark mb-6">
+                Be part of what happens next.
+            </h2>
+            <p class="text-xl leading-relaxed text-gray-700 max-w-2xl mx-auto mb-16">
+                Your donation creates the next opportunity — a scholarship, a doctor's visit, a classroom that stays open. Every dollar is an investment in a life that's waiting for its moment.
+            </p>
+
+            <!-- Interactive Donation Block -->
+            <div class="bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-8 md:p-12 border border-gray-100 text-left">
+                <h3 class="font-sans text-2xl font-bold uppercase mb-6 text-center text-brand-dark">Select Your Impact</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" id="donation-options">
+                    <!-- Option 1 -->
+                    <button type="button" class="donate-btn flex flex-col items-center justify-center p-6 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-brand-accent" data-amount="50">
+                        <span class="font-sans text-4xl font-bold mb-2">$50</span>
+                        <span class="text-sm text-center text-gray-600 font-serif">Provides a critical doctor's visit</span>
+                    </button>
+                    <!-- Option 2 -->
+                    <button type="button" class="donate-btn selected flex flex-col items-center justify-center p-6 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-brand-accent" data-amount="150">
+                        <span class="font-sans text-4xl font-bold mb-2">$150</span>
+                        <span class="text-sm text-center text-gray-600 font-serif">Keeps a classroom open and supplied</span>
+                    </button>
+                    <!-- Option 3 -->
+                    <button type="button" class="donate-btn flex flex-col items-center justify-center p-6 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-brand-accent" data-amount="500">
+                        <span class="font-sans text-4xl font-bold mb-2">$500</span>
+                        <span class="text-sm text-center text-gray-600 font-serif">Invests in the full scholarship fund</span>
+                    </button>
+                </div>
+
+                <!-- Custom Amount -->
+                <div class="mb-8">
+                    <label for="custom-amount" class="block font-sans text-sm font-bold uppercase text-gray-500 mb-2">Or enter a custom amount</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 transform -translate-y-1/2 font-sans text-xl font-bold text-gray-500">$</span>
+                        <input type="number" id="custom-amount" class="w-full pl-10 pr-4 py-4 border-2 border-gray-200 rounded-lg font-sans text-xl font-bold focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition" placeholder="0.00">
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="button" onclick="alert('This is a prototype. In Squarespace, this would link to your Stripe/payment processor.')" class="w-full bg-brand-dark text-white font-sans text-xl font-bold uppercase tracking-wider py-5 rounded-lg hover:bg-gray-800 transition shadow-lg flex items-center justify-center gap-3">
+                    Donate Now <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: The Anchor (The Final Push) -->
+    <section class="py-24 px-6 bg-brand-dark text-white text-center">
+        <div class="max-w-4xl mx-auto">
+            <i class="fa-solid fa-quote-left text-brand-accent text-5xl mb-8 opacity-80"></i>
+            <blockquote class="font-serif text-3xl md:text-4xl leading-snug italic mb-8">
+                "Together, by helping one child at a time, we can change the outlook of an entire nation."
+            </blockquote>
+            <cite class="font-sans text-xl tracking-widest uppercase not-italic font-bold text-brand-accent">
+                — Bismack Biyombo
+            </cite>
+        </div>
+    </section>
+
+    <!-- JavaScript for interactive donation form -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('.donate-btn');
+            const customInput = document.getElementById('custom-amount');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove selected class from all
+                    buttons.forEach(btn => btn.classList.remove('selected'));
+                    // Add selected class to clicked
+                    button.classList.add('selected');
+                    // Clear custom input
+                    customInput.value = '';
+                });
+            });
+
+            // If user types in custom amount, deselect preset buttons
+            customInput.addEventListener('input', () => {
+                if (customInput.value.length > 0) {
+                    buttons.forEach(btn => btn.classList.remove('selected'));
+                }
+            });
+        });
+    </script>
+</body>
+</html>
