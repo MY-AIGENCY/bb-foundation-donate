@@ -450,8 +450,11 @@
         <div class="pattern-vignette" style="opacity: 0.06;"></div>
         <!-- Image Side -->
         <div class="md:w-1/2 min-h-[400px] md:min-h-0 relative overflow-hidden" style="z-index:1;">
-            <img src="images/hospital-staff.jpg" alt="Medical staff at the Bismack Biyombo Hospital"
-                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
+            <picture>
+                <source srcset="images/hospital-staff.webp" type="image/webp">
+                <img src="images/hospital-staff.jpg" alt="Medical staff at the Bismack Biyombo Hospital"
+                    class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105" />
+            </picture>
         </div>
         <!-- Text Side -->
         <div class="md:w-1/2 py-20 px-8 md:px-16 lg:px-24 flex items-center" style="z-index:1;">
