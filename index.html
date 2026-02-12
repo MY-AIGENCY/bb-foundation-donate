@@ -259,6 +259,62 @@
             text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
         }
 
+        /* ─── Hero responsive: short viewports (MacBook Air ~900px height) ─── */
+        @media (max-height: 900px) {
+            .hero-logo {
+                width: 60px;
+                margin-bottom: 16px;
+            }
+
+            .hero-text-backdrop {
+                padding: 24px 20px;
+            }
+
+            .hero h1 {
+                font-size: clamp(1.8rem, 5vw, 3.5rem);
+            }
+
+            .hero p {
+                font-size: 0.95rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .hero-bg {
+                background-position: center 30%;
+            }
+        }
+
+        /* ─── Hero responsive: narrow tablets (iPad Mini portrait) ─── */
+        @media (min-width: 768px) and (max-width: 834px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero-logo {
+                width: 70px;
+            }
+        }
+
+        /* ─── Hero responsive: very short viewports (landscape tablets) ─── */
+        @media (max-height: 700px) {
+            .hero {
+                padding-bottom: 40px;
+            }
+
+            .hero-logo {
+                width: 50px;
+                margin-bottom: 12px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                display: none;
+            }
+        }
+
         .btn-hero {
             display: inline-block;
             background: #eab308;
