@@ -2,7 +2,7 @@
 
 ## Standards
 
-This repository follows the [Agent Development Standards](file:///Users/dontraub/agent-standards/STANDARDS.md) (v2.23.0).
+This repository follows the [Agent Development Standards](file:///Users/dontraub/agent-standards/STANDARDS.md) (v2.24.0).
 
 > **MANDATORY**: All agents MUST read and acknowledge the standards before performing any work.
 
