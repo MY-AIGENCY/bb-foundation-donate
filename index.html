@@ -44,6 +44,8 @@
         /* ─── Base ─── */
         html {
             scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         * {
@@ -159,12 +161,9 @@
         }
 
         @media (max-width: 767px) {
-            .hero {
-                min-height: 75vh;
-            }
-
             .hero-bg {
-                background-position: center 25%;
+                background-size: auto 90%;
+                background-position: center 15%;
             }
         }
 
@@ -403,17 +402,18 @@
 
         /* ─── Footer Logo ─── */
         .footer-wordmark {
-            width: 240px;
+            width: 160px;
             height: auto;
             opacity: 0.7;
             margin: 0 auto;
             display: block;
             filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.3));
-            transition: opacity 0.3s;
+            transition: opacity 0.3s, filter 0.3s;
         }
 
         .footer-wordmark:hover {
             opacity: 0.95;
+            filter: drop-shadow(0 0 10px rgba(232, 93, 44, 0.6)) drop-shadow(0 0 20px rgba(232, 93, 44, 0.3));
         }
 
         /* ─── Scroll-triggered fade-in ─── */
